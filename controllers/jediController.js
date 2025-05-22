@@ -1,50 +1,53 @@
-let jedis = [
-  { id: 1, name: 'Luke Skywalker' },
-  { id: 2, name: 'Obi-Wan Kenobi' },
-  { id: 3, name: 'Yoda' },
-];
+const {
+  getAllJedis,
+  getJediById,
+  createJedi,
+  updateJediById,
+  deleteJediById,
+} = require('../services/jediService');
 
 const getJedis = (req, res) => {
-  return res.json(jedis);
+  return res.json(getAllJedis());
 };
 
 const getJedi = (req, res) => {
-  const id = req.params.id;
-  const jedi = jedis.find((jedi) => jedi.id == id);
+  const jedi = getJediById(parseInt(req.param.id));
   if (!jedi) {
-    return res.status(404).json({ msg: 'Jedi not found' });
+    return res.status(404).json({ msg: 'Jedi Not Found' });
   }
   return res.status(200).json(jedi);
 };
 
 const addJedi = (req, res) => {
   if (!req.body.name) {
-    return res.status(400).send({ msg: 'error - name not found' });
+    return res.status(400).send({ msg: 'error: name Not Found' });
   }
-  const newJedi = { id: jedis.length + 1, name: req.body.name };
-  jedis.push(newJedi);
+  const newJedi = createJedi(req.body.name);
   return res.status(201).send(newJedi);
 };
 
 const editJedi = (req, res) => {
-  const id = req.params.id;
-  const jedi = jedis.find((jedi) => jedi.id == id);
-  if (!jedi) {
-    return res.status(404).json({ msg: 'Jedi not found' });
+  if (!req.body.name) {
+    return res.status(400).send({ msg: 'error: name Not Found' });
   }
-  const { name } = req.body;
-  jedi.name = name;
-  return res.status(200).json(jedi);
+  const updatedJedi = updateJediById(parseInt(req.params.id), req.body.name);
+  if (!updatedJedi) {
+    return res
+      .status(404)
+      .send({ msg: `Jedi with id: ${req.params.id} not found` });
+  }
+  return res.status(200).json(updatedJedi);
 };
 
 const removeJedi = (req, res) => {
-  const id = parseInt(req.params.id);
-  const jedi = jedis.find((jedi) => jedi.id === id);
+  const jedi = getJediById(parseInt(req.params.id));
   if (!jedi) {
-    return res.status(404).json({ msg: 'Jedi not found' });
+    return res
+      .status(404)
+      .json({ msg: `Jedi with id:${req.params.id} not found` });
   }
-  jedis = jedis.filter((jedi) => jedi.id !== id);
-  return res.json({ msg: `Jedi ${jedi.name} eliminado correctamente` });
+  deleteJediById(parseInt(req.params.id));
+  return res.status(200).json({ msg: `Jedi with id:${req.params.id} deleted` });
 };
 
 module.exports = { getJedis, getJedi, addJedi, editJedi, removeJedi };
