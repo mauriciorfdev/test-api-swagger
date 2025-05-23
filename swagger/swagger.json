@@ -1,9 +1,9 @@
 {
   "openapi": "3.0.0",
   "info": {
-    "title": "Express API",
+    "title": "Jedi API Example",
     "version": "1.0.0",
-    "description": "This is a REST API application made with Express. This example is for learning purposes, so it uses an array of objects (Jedis) to simulate the data."
+    "description": "This is a REST API application made with Express for learning purposes, so it uses an array of objects (Jedis) to simulate the data.\n\n Some useful links: \n\n- [The source API definition for Jedi API](https://github.com/mauriciorfdev/test-api-swagger/blob/main/swagger/swagger.json) "
   },
   "servers": [
     {
@@ -11,9 +11,11 @@
       "description": "Development server"
     }
   ],
+  "tags": [{ "name": "Jedi", "description": "Operations about Jedis" }],
   "paths": {
     "/jedis": {
       "get": {
+        "tags": ["Jedi"],
         "summary": "Returns a list of jedis",
         "description": "Optional extended description in CommonMark or HTML.",
         "responses": {
@@ -33,7 +35,8 @@
         }
       },
       "post": {
-        "summary": "Add jedi",
+        "tags": ["Jedi"],
+        "summary": "Add a jedi",
         "description": "Optional extended description in CommonMark or HTML.",
         "requestBody": {
           "required": "true",
@@ -76,6 +79,7 @@
     },
     "/jedis/{id}": {
       "get": {
+        "tags": ["Jedi"],
         "summary": "Get a single jedi",
         "description": "Optional extended description in CommonMark or HTML.",
         "parameters": [
@@ -106,7 +110,8 @@
         }
       },
       "put": {
-        "summary": "Update Jedi",
+        "tags": ["Jedi"],
+        "summary": "Update a Jedi",
         "description": "Optional extended description in CommonMark or HTML.",
         "parameters": [
           {
@@ -161,7 +166,8 @@
         }
       },
       "delete": {
-        "summary": "Delete Jedi",
+        "tags": ["Jedi"],
+        "summary": "Delete a Jedi",
         "description": "Optional extended description in CommonMark or HTML.",
         "parameters": [
           {
